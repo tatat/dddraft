@@ -24,6 +24,8 @@ export interface SharedState {
   showPreferences: boolean
 }
 
+export type SharedStateKey = keyof SharedState
+
 const state: SharedState = {
   theme: 'dark-grad',
   vimModeEnabled: false,
@@ -38,7 +40,7 @@ const store = {
     state.vimModeEnabled = get<boolean>('vimModeEnabled', state.vimModeEnabled)
   },
 
-  commit<K extends keyof SharedState>(
+  commit<K extends SharedStateKey>(
     key: K,
     value: SharedState[K],
     persist: boolean = false
@@ -55,15 +57,15 @@ export default store
 
 export function State(
   options?:
-    | { key?: keyof SharedState; persist?: boolean; readonly?: boolean }
-    | keyof SharedState
+    | { key?: SharedStateKey; persist?: boolean; readonly?: boolean }
+    | SharedStateKey
 ) {
   return createDecorator((componentOptions, propertyKey) => {
     if (typeof componentOptions.computed === 'undefined') {
       componentOptions.computed = {}
     }
 
-    let _key = propertyKey as keyof SharedState
+    let _key = propertyKey as SharedStateKey
     let _persist = false
     let _readonly = false
 
