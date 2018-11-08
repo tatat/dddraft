@@ -53,7 +53,7 @@ import languages from './lib/languages'
 import './assets/style.scss'
 import { initVimMode } from 'monaco-vim'
 import Preferences from './components/Preferences.vue'
-import store, { SharedState } from './store'
+import store, { SharedState, State } from './store'
 
 @Component({
   components: {
@@ -104,9 +104,8 @@ export default class App extends Vue {
     })
   }
 
-  get theme(): SharedState['theme'] {
-    return this.sharedState.theme
-  }
+  @State({ readonly: true })
+  theme!: SharedState['theme']
 
   loadLocalOptions() {
     const localLanguage = localStorage.getItem('language')

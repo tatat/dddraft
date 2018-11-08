@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import store, { SharedState } from '../store'
+import store, { SharedState, State } from '../store'
 import '../lib/theme/dark'
 import '../lib/theme/light'
 import '../lib/theme/vscode'
@@ -37,24 +37,17 @@ import themes from '../lib/theme/themes'
 export default class extends Vue {
   themes = themes
 
-  get vimModeEnabled(): SharedState['vimModeEnabled'] {
-    return this.sharedState.vimModeEnabled
-  }
+  @State({ persist: true })
+  vimModeEnabled!: SharedState['vimModeEnabled']
 
-  set vimModeEnabled(value: SharedState['vimModeEnabled']) {
-    store.commit('vimModeEnabled', value, true)
-  }
+  @State({ persist: true })
+  theme!: SharedState['theme']
 
-  get theme(): SharedState['theme'] {
-    return this.sharedState.theme
-  }
-
-  set theme(value: SharedState['theme']) {
-    store.commit('theme', value, true)
-  }
+  @State()
+  showPreferences!: SharedState['showPreferences']
 
   close() {
-    store.commit('showPreferences', false)
+    this.showPreferences = false
   }
 }
 </script>
