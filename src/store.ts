@@ -1,4 +1,4 @@
-import { createDecorator } from 'vue-class-component'
+import { createDecorator, VueDecorator } from 'vue-class-component'
 
 function get<T extends any>(key: string, defaultValue: T): T
 function get<T extends any>(key: string, defaultValue?: T): T | undefined {
@@ -55,6 +55,11 @@ const store = {
 
 export default store
 
+export function State(): VueDecorator
+export function State(options: SharedStateKey): VueDecorator
+export function State(options: { key: SharedStateKey }): VueDecorator
+export function State(options: { key?: SharedStateKey; persist: boolean }): VueDecorator
+export function State(options: { key?: SharedStateKey; readonly: boolean }): VueDecorator
 export function State(
   options?:
     | { key?: SharedStateKey; persist?: boolean; readonly?: boolean }
